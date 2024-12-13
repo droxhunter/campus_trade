@@ -29,3 +29,18 @@ def list_product():
 def browse():
     products = Product.query.all()
     return render_template('browse.html', products=products)
+
+@product_bp.route('/feedback/<int:product_id>', methods=['GET', 'POST'])
+@login_required
+def feedback(product_id):
+    if request.method == 'POST':
+        rating = request.form['rating']
+        comment = request.form['comment']
+        
+        feedback = Feedback(product_id=product_id, user_id=current_user.id, rating=rating, comment=comment)
+        db.session.add(feedback)
+        db.session.commit()
+        
+        flash('Feedback submitted successfully!')
+        return redirect(url_for('products.browse'))
+    return render_template('feedback.html', product_id=product_id)
