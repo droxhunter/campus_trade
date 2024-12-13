@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+    <title>User Profile</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ user.username }}</h1>
+    </header>
+    <div class="profile-container">
+        <h2>Your Details</h2>
+        <p>School: {{ user.school }}</p>
+        <p>Student ID: {{ user.student_id }}</p>
+
+        <h2>Your Products</h2>
+        <ul>
+            {% for product in products %}
+            <li>{{ product.name }} - ${{ product.price }}</li>
+            {% endfor %}
+        </ul>
+
+        <form action="{{ url_for('user.edit_profile') }}" method="GET">
+            <button type="submit" class="btn">Edit Profile</button>
+        </form>
+        <form action="{{ url_for('user.delete_account') }}" method="POST">
+            <button type="submit" class="btn">Delete Account</button>
+        </form>
+    </div>
+</body>
+</html>
